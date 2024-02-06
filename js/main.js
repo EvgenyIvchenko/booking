@@ -1,17 +1,28 @@
-const getRandomIntInclusive = (min, max) => {
-  if (min < max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+const getRandomInteger = (min, max) => {
+  if (min < 0) {
+    throw new Error('Минимальное число не может быть меньше 0');
+  } else if (min > max) {
+    throw new Error('Максимальное число не может быть меньше минимального');
   }
-  console.log('соррян, это не то');
+
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-console.log(getRandomIntInclusive(0, 100));
+console.log(getRandomInteger(0, 25));
 
-const getRandomArbitraryInclusive = (min, max, fix) => {
-  let randomNumber = Math.random() * (max - min) + min;
+const getRandomFractional = (min, max, fix) => {
+  if (min < 0) {
+    throw new Error('Минимальное число не может быть меньше 0');
+  } else if (min > max) {
+    throw new Error('Максимальное число не может быть меньше минимального');
+  } else if (fix < 0) {
+    throw new Error('Значение не может быть ниже 0');
+  }
+
+  const randomNumber = Math.random() * (max - min) + min;
   return randomNumber.toFixed(fix);
 };
 
-console.log(getRandomArbitraryInclusive(3, 25, 5));
+console.log(getRandomFractional(0, 100, 5));
