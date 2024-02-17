@@ -10,8 +10,6 @@ const getRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-console.log(getRandomInteger(0, 25));
-
 const getRandomFractional = (min, max, fix) => {
   if (min < 0) {
     throw new Error('Минимальное число не может быть меньше 0');
@@ -22,7 +20,52 @@ const getRandomFractional = (min, max, fix) => {
   }
 
   const randomNumber = Math.random() * (max - min) + min;
-  return randomNumber.toFixed(fix);
+  return +randomNumber.toFixed(fix);
 };
 
-console.log(getRandomFractional(0, 100, 5));
+const Avatar = {
+  Min: 1,
+  Max: 10,
+};
+
+const createUniqueNumber = (min, max) => {
+  const array = [];
+
+  return function() {
+    if (array.length >= max) {
+      throw new Error('Числа закончились');
+    }
+
+    let value = getRandomInteger(min, max);
+
+    if (!array.includes(value)) {
+      array.push(value);
+    } else {
+      while(array.includes(value)) {
+        value = getRandomInteger(min, max);
+
+        if (!array.includes(value)) {
+          array.push(value);
+          break;
+        }
+      }
+    }
+
+    return value;
+  };
+};
+
+const uniqueNumber = createUniqueNumber(Avatar.Min, Avatar.Max);
+
+
+const createAvatarUrl = () => {
+  let uniqueNumberFixed = uniqueNumber();
+
+  if (uniqueNumberFixed < 10) {
+    uniqueNumberFixed = `0${uniqueNumberFixed}`;
+  }
+
+  return `img/avatars/user${uniqueNumberFixed}.png`;
+};
+
+console.log(createAvatarAdress());
