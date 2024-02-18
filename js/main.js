@@ -40,6 +40,27 @@ const ADS_FEATURES = [
   'conditioner',
 ];
 
+const ADS_DESCRIPTION = [
+  'Прекрасное помещение',
+  'Просторные комнаты',
+  'Естесственное освещение',
+  'Большая кухня',
+  'Французский стеклопакет',
+  'Добрая консьержка',
+  'Злые соседи',
+  'Высокие потолки',
+  'Свежий ремонт',
+  'Вместительный гардероб',
+];
+
+const ADS_PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+
+const ADS_COUNT = 10;
+
 const Avatar = {
   Min: 1,
   Max: 10,
@@ -134,7 +155,28 @@ const getFeatures = () => {
   return premisesFeatures;
 };
 
-console.log(getFeatures());
+const getPhotos = () => {
+  const premisesPhotos = [];
+  const photosAmount = getRandomInteger(1, 3);
+  let photosElement = getRandomArrayElement(ADS_PHOTOS);
+
+  for (let i = 0; i < photosAmount; i++) {
+    if (!premisesPhotos.includes(photosElement)) {
+      premisesPhotos.push(photosElement);
+    } else {
+      while (premisesPhotos.includes(photosElement)) {
+        photosElement = getRandomArrayElement(ADS_PHOTOS);
+
+        if (!premisesPhotos.includes(photosElement)) {
+          premisesPhotos.push(photosElement);
+          break;
+        }
+      }
+    }
+  }
+
+  return premisesPhotos;
+};
 
 const author = {
   avatar: createAvatarUrl(),
@@ -154,6 +196,19 @@ const offer = {
   guests: getRandomInteger(1, 36),
   checkin: getRandomArrayElement(ADS_CHECKIN),
   checkout: getRandomArrayElement(ADS_CHECKOUT),
+  features: getFeatures(),
+  description: getRandomArrayElement(ADS_DESCRIPTION),
+  photos: getPhotos(ADS_PHOTOS),
 };
 
-console.log(offer);
+const getAds = () => {
+  return {
+    author,
+    offer,
+    locationAds,
+  };
+};
+
+const ads = Array.from({length: ADS_COUNT}, getAds);
+
+// console.log(ads);
