@@ -1,3 +1,50 @@
+const ADS_TITLES = [
+  'Сдам однушку',
+  'Продам двушку',
+  'Обменяю трёхкомнатную',
+  'Сдам евро-двушку',
+  'Евро-трёшка в аренду',
+  'Продаётся дом',
+  'Аренда пентхауса',
+  'Сдаётся вилла',
+  'Продам дворец',
+  'Замок в аренду',
+];
+
+const ADS_TYPE = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel',
+];
+
+const ADS_CHECKIN = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+
+const ADS_CHECKOUT = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+
+const ADS_FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+
+const Avatar = {
+  Min: 1,
+  Max: 10,
+};
+
 const getRandomInteger = (min, max) => {
   if (min < 0) {
     throw new Error('Минимальное число не может быть меньше 0');
@@ -23,10 +70,7 @@ const getRandomFractional = (min, max, fix) => {
   return +randomNumber.toFixed(fix);
 };
 
-const Avatar = {
-  Min: 1,
-  Max: 10,
-};
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const createUniqueNumber = (min, max) => {
   const array = [];
@@ -41,7 +85,7 @@ const createUniqueNumber = (min, max) => {
     if (!array.includes(value)) {
       array.push(value);
     } else {
-      while(array.includes(value)) {
+      while (array.includes(value)) {
         value = getRandomInteger(min, max);
 
         if (!array.includes(value)) {
@@ -57,7 +101,6 @@ const createUniqueNumber = (min, max) => {
 
 const uniqueNumber = createUniqueNumber(Avatar.Min, Avatar.Max);
 
-
 const createAvatarUrl = () => {
   let uniqueNumberFixed = uniqueNumber();
 
@@ -68,4 +111,49 @@ const createAvatarUrl = () => {
   return `img/avatars/user${uniqueNumberFixed}.png`;
 };
 
-console.log(createAvatarAdress());
+const getFeatures = () => {
+  const premisesFeatures = [];
+  const featuresAmount = getRandomInteger(1, 6);
+  let featuresElement = getRandomArrayElement(ADS_FEATURES);
+
+  for (let i = 0; i < featuresAmount; i++) {
+    if (!premisesFeatures.includes(featuresElement)) {
+      premisesFeatures.push(featuresElement);
+    } else {
+      while (premisesFeatures.includes(featuresElement)) {
+        featuresElement = getRandomArrayElement(ADS_FEATURES);
+
+        if (!premisesFeatures.includes(featuresElement)) {
+          premisesFeatures.push(featuresElement);
+          break;
+        }
+      }
+    }
+  }
+
+  return premisesFeatures;
+};
+
+console.log(getFeatures());
+
+const author = {
+  avatar: createAvatarUrl(),
+};
+
+const locationAds = {
+  lat: getRandomFractional(35.65000, 35.70000, 5),
+  lng: getRandomFractional(139.7000, 139.80000, 5),
+};
+
+const offer = {
+  title: getRandomArrayElement(ADS_TITLES),
+  address: `${locationAds.lat}, ${locationAds.lng}`,
+  price: getRandomInteger(10000, 100000),
+  type: getRandomArrayElement(ADS_TYPE),
+  rooms: getRandomInteger(1, 12),
+  guests: getRandomInteger(1, 36),
+  checkin: getRandomArrayElement(ADS_CHECKIN),
+  checkout: getRandomArrayElement(ADS_CHECKOUT),
+};
+
+console.log(offer);
