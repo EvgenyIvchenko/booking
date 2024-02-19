@@ -66,6 +66,39 @@ const Avatar = {
   Max: 10,
 };
 
+const Location = {
+  LatMin: 35.65000,
+  LatMax: 35.70000,
+  LngMin: 139.70000,
+  LngMax: 139.80000,
+  Float: 5,
+};
+
+const Price = {
+  Min: 10000,
+  Max: 1000000,
+};
+
+const Rooms = {
+  Min: 1,
+  Max: 5,
+};
+
+const Guests = {
+  Min: 1,
+  Max: 5,
+};
+
+// функция для сортировки массива
+const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+};
+
 const getRandomInteger = (min, max) => {
   if (min < 0) {
     throw new Error('Минимальное число не может быть меньше 0');
@@ -91,7 +124,7 @@ const getRandomFractional = (min, max, fix) => {
   return +randomNumber.toFixed(fix);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
 
 const createUniqueNumber = (min, max) => {
   const array = [];
@@ -120,95 +153,42 @@ const createUniqueNumber = (min, max) => {
   };
 };
 
-const uniqueNumber = createUniqueNumber(Avatar.Min, Avatar.Max);
+const uniqueAvatarNumber = createUniqueNumber(Avatar.Min, Avatar.Max);
 
-const createAvatarUrl = () => {
-  let uniqueNumberFixed = uniqueNumber();
-
-  if (uniqueNumberFixed < 10) {
-    uniqueNumberFixed = `0${uniqueNumberFixed}`;
-  }
-
-  return `img/avatars/user${uniqueNumberFixed}.png`;
+const createAvatar = () => {
+  const number = uniqueAvatarNumber();
+  return number < 10 ? `img/avatars/user0${number}.png` : `img/avatars/user${number}.png`;
 };
 
-const getFeatures = () => {
-  const premisesFeatures = [];
-  const featuresAmount = getRandomInteger(1, 6);
-  let featuresElement = getRandomArrayElement(ADS_FEATURES);
+const createLat = () => getRandomFractional(Location.LatMin, Location.LatMax, Location.Float);
+const createLng = () => getRandomFractional(Location.LngMin, Location.LngMax, Location.Float);
 
-  for (let i = 0; i < featuresAmount; i++) {
-    if (!premisesFeatures.includes(featuresElement)) {
-      premisesFeatures.push(featuresElement);
-    } else {
-      while (premisesFeatures.includes(featuresElement)) {
-        featuresElement = getRandomArrayElement(ADS_FEATURES);
+const createFeatures = () => shuffle(Array.from(ADS_FEATURES)).slice(0, getRandomInteger(1, ADS_FEATURES.length));
+const createPhotos = () => shuffle(Array.from(ADS_PHOTOS)).slice(0, getRandomInteger(1, ADS_PHOTOS.length));
 
-        if (!premisesFeatures.includes(featuresElement)) {
-          premisesFeatures.push(featuresElement);
-          break;
-        }
-      }
-    }
-  }
+const createAnnouncement = () => ({
+  author: {
+    avatar: createAvatar(),
+  },
+  offer: {
+    title: getRandomArrayElement(ADS_TITLES),
+    address: `${createLat()}, ${createLng()}`,
+    price: getRandomInteger(Price.Min, Price.Max),
+    type: getRandomArrayElement(ADS_TYPE),
+    rooms: getRandomInteger(Rooms.Min, Rooms.Max),
+    guests: getRandomInteger(Guests.Min, Guests.Max),
+    checkin: getRandomArrayElement(ADS_CHECKIN),
+    checkout: getRandomArrayElement(ADS_CHECKOUT),
+    features: createFeatures(),
+    description: getRandomArrayElement(ADS_DESCRIPTION),
+    photos: createPhotos(ADS_PHOTOS),
+  },
+  location: {
+    lat: createLat(),
+    lng: createLng(),
+  },
+});
 
-  return premisesFeatures;
-};
+const createAnnouncements = () => Array.from({length: ADS_COUNT}, createAnnouncement);
 
-const getPhotos = () => {
-  const premisesPhotos = [];
-  const photosAmount = getRandomInteger(1, 3);
-  let photosElement = getRandomArrayElement(ADS_PHOTOS);
-
-  for (let i = 0; i < photosAmount; i++) {
-    if (!premisesPhotos.includes(photosElement)) {
-      premisesPhotos.push(photosElement);
-    } else {
-      while (premisesPhotos.includes(photosElement)) {
-        photosElement = getRandomArrayElement(ADS_PHOTOS);
-
-        if (!premisesPhotos.includes(photosElement)) {
-          premisesPhotos.push(photosElement);
-          break;
-        }
-      }
-    }
-  }
-
-  return premisesPhotos;
-};
-
-const author = {
-  avatar: createAvatarUrl(),
-};
-
-const locationAds = {
-  lat: getRandomFractional(35.65000, 35.70000, 5),
-  lng: getRandomFractional(139.7000, 139.80000, 5),
-};
-
-const offer = {
-  title: getRandomArrayElement(ADS_TITLES),
-  address: `${locationAds.lat}, ${locationAds.lng}`,
-  price: getRandomInteger(10000, 100000),
-  type: getRandomArrayElement(ADS_TYPE),
-  rooms: getRandomInteger(1, 12),
-  guests: getRandomInteger(1, 36),
-  checkin: getRandomArrayElement(ADS_CHECKIN),
-  checkout: getRandomArrayElement(ADS_CHECKOUT),
-  features: getFeatures(),
-  description: getRandomArrayElement(ADS_DESCRIPTION),
-  photos: getPhotos(ADS_PHOTOS),
-};
-
-const getAds = () => {
-  return {
-    author,
-    offer,
-    locationAds,
-  };
-};
-
-const ads = Array.from({length: ADS_COUNT}, getAds);
-
-// console.log(ads);
+console.log(createAnnouncements());
