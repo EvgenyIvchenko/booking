@@ -1,4 +1,10 @@
-import {getRandomInteger, getRandomFractional, getRandomArrayElement} from './util.js';
+import {
+  getRandomInteger,
+  getRandomFractional,
+  getRandomArrayElement,
+  shuffle,
+  createUniqueNumber,
+} from './util.js';
 
 const ADS_TITLES = [
   'Сдам однушку',
@@ -91,43 +97,6 @@ const Guests = {
   Max: 5,
 };
 
-// функция для сортировки массива
-const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-
-  return array;
-};
-
-const createUniqueNumber = (min, max) => {
-  const array = [];
-
-  return function() {
-    if (array.length >= max) {
-      throw new Error('Числа закончились');
-    }
-
-    let value = getRandomInteger(min, max);
-
-    if (!array.includes(value)) {
-      array.push(value);
-    } else {
-      while (array.includes(value)) {
-        value = getRandomInteger(min, max);
-
-        if (!array.includes(value)) {
-          array.push(value);
-          break;
-        }
-      }
-    }
-
-    return value;
-  };
-};
-
 const uniqueAvatarNumber = createUniqueNumber(Avatar.Min, Avatar.Max);
 
 const createAvatar = () => {
@@ -164,6 +133,4 @@ const createAnnouncement = () => ({
   },
 });
 
-const createAnnouncements = () => Array.from({length: ADS_COUNT}, createAnnouncement);
-
-export {createAnnouncements};
+export const createAnnouncements = () => Array.from({length: ADS_COUNT}, createAnnouncement);

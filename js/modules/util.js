@@ -1,4 +1,4 @@
-const getRandomInteger = (min, max) => {
+export const getRandomInteger = (min, max) => {
   if (min < 0) {
     throw new Error('Минимальное число не может быть меньше 0');
   } else if (min > max) {
@@ -10,7 +10,7 @@ const getRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const getRandomFractional = (min, max, fix) => {
+export const getRandomFractional = (min, max, fix) => {
   if (min < 0) {
     throw new Error('Минимальное число не может быть меньше 0');
   } else if (min > max) {
@@ -23,6 +23,40 @@ const getRandomFractional = (min, max, fix) => {
   return +randomNumber.toFixed(fix);
 };
 
-const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
+export const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
 
-export {getRandomInteger, getRandomFractional, getRandomArrayElement};
+export const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+};
+
+export const createUniqueNumber = (min, max) => {
+  const array = [];
+
+  return function() {
+    if (array.length >= max) {
+      throw new Error('Числа закончились');
+    }
+
+    let value = getRandomInteger(min, max);
+
+    if (!array.includes(value)) {
+      array.push(value);
+    } else {
+      while (array.includes(value)) {
+        value = getRandomInteger(min, max);
+
+        if (!array.includes(value)) {
+          array.push(value);
+          break;
+        }
+      }
+    }
+
+    return value;
+  };
+};
