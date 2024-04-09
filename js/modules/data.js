@@ -67,8 +67,6 @@ const ADS_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const ADS_COUNT = 10;
-
 const Avatar = {
   Min: 1,
   Max: 10,
@@ -133,4 +131,4 @@ const createAnnouncement = () => ({
   },
 });
 
-export const createAnnouncements = () => Array.from({length: ADS_COUNT}, createAnnouncement);
+export const createAnnouncements = (count) => Array.from({length: count}, createAnnouncement);
