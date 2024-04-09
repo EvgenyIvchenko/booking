@@ -42,20 +42,24 @@ const offerType = (type) => {
 //   }
 // };
 
-const addPhotos = (link) => {
+const addPhotos = (arr) => {
   const photosList = cardTemplate.querySelector('.popup__photos');
   const photosItem = photosList.querySelector('.popup__photo');
 
-  photosItem.setAttribute('src', link[0]);
+  photosItem.setAttribute('src', arr[0]);
 
-  if (link.length > 1) {
-    for (let i = 0; i < link.length; i++) {
+  if (arr.length > 1) {
+    for (let i = 0; i < arr.length; i++) {
       const photosItemCopy = photosItem.cloneNode(true);
 
-      photosItemCopy.setAttribute('src', link[i + 1]);
+      photosItemCopy.setAttribute('src', arr[i + 1]);
       photosList.appendChild(photosItemCopy);
     }
   }
+};
+
+const setFeatures = (arr) => {
+  const
 };
 
 similarCards.forEach(({author, offer, location}) => {
@@ -71,8 +75,7 @@ similarCards.forEach(({author, offer, location}) => {
   cardElement.querySelector('.popup__type').textContent = offerType(type);
   cardElement.querySelector('.popup__text--capacity').textContent = `${rooms} комнаты для ${guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
-  // features-удобства
-  // cardElement.querySelector('.popup__features').textContent = title;
+  setFeatures(features);
   cardElement.querySelector('.popup__description').textContent = description;
   addPhotos(photos);
 });
