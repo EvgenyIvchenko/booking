@@ -1,5 +1,12 @@
-import {createAnnouncements} from './modules/data.js';
-import './modules/card.js';
+import {createCards} from './modules/card.js';
+import {
+  disableState,
+  enableState,
+  // enableState,
+} from './modules/state.js';
 
+const ANNOUNCEMENTS_COUNT = 0;
 
-console.log(createAnnouncements(3));
+createCards(ANNOUNCEMENTS_COUNT);
+
+disableState();
