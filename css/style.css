@@ -1028,3 +1028,11 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.ad-form__error {
+  display: block;
+  padding-top: 4px;
+  padding-left: 10px;
+  font-size: 0.85em;
+  color: #c00;
+}
