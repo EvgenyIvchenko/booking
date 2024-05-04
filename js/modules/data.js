@@ -73,11 +73,11 @@ const Avatar = {
 };
 
 const Location = {
-  LatMin: 35.65000,
-  LatMax: 35.70000,
-  LngMin: 139.70000,
-  LngMax: 139.80000,
-  Float: 5,
+  LATMIN: 35.65000,
+  LATMAX: 35.70000,
+  LNGMIN: 139.70000,
+  LNGMAX: 139.80000,
+  FLOAT: 5,
 };
 
 const Price = {
@@ -102,8 +102,8 @@ const createAvatar = () => {
   return number < 10 ? `img/avatars/user0${number}.png` : `img/avatars/user${number}.png`;
 };
 
-const createLat = () => getRandomFractional(Location.LatMin, Location.LatMax, Location.Float);
-const createLng = () => getRandomFractional(Location.LngMin, Location.LngMax, Location.Float);
+const createLat = () => getRandomFractional(Location.LATMIN, Location.LATMAX, Location.FLOAT);
+const createLng = () => getRandomFractional(Location.LNGMIN, Location.LNGMAX, Location.FLOAT);
 
 const createFeatures = () => shuffle(Array.from(ADS_FEATURES)).slice(0, getRandomInteger(1, ADS_FEATURES.length));
 const createPhotos = () => shuffle(Array.from(ADS_PHOTOS)).slice(0, getRandomInteger(1, ADS_PHOTOS.length));

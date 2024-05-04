@@ -3,12 +3,12 @@ import {createAnnouncements} from './data.js';
 const mapCanvas = document.querySelector('#map-canvas');
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const popupType = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
+const PopupType = {
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+  HOTEL: 'Отель',
 };
 
 const createAvatar = (popup, avatar) => {
@@ -86,7 +86,7 @@ export const createCards = (count) => {
     createTextContent(popup, '.popup__title', title, title);
     createTextContent(popup, '.popup__text--address', address, address);
     createTextContent(popup, '.popup__text--price', `${price} ₽/ночь`, price);
-    createTextContent(popup, '.popup__type', popupType[type], type);
+    createTextContent(popup, '.popup__type', PopupType[type], type);
     createTextContent(popup, '.popup__text--capacity', `${rooms} комнаты для ${guests} гостей`, rooms, guests);
     createTextContent(popup, '.popup__text--time', `Заезд после ${checkin}, выезд до ${checkout}`, checkin, checkout);
     createTextContent(popup, '.popup__description', description, description);
