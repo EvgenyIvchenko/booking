@@ -3,8 +3,12 @@ const title = adForm.querySelector('#title');
 const price = adForm.querySelector('#price');
 const rooms = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
-const houseType = adForm.querySelector('#type');
+const type = adForm.querySelector('#type');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
 
+
+const PRICE_MIN = price.min;
 const PRICE_MAX = 100000;
 
 const titleCount = {
@@ -14,7 +18,7 @@ const titleCount = {
 
 const ErrorMessage = {
   TITLE: 'От 30 до 100 символов',
-  PRICE: 'От 0 до 100000',
+  PRICE: `От ${PRICE_MIN} до 100000`,
   CAPACITY: 'Недопустимое количество гостей',
   NO_GUESTS: 'Помещение не для гостей',
 };
@@ -47,29 +51,34 @@ export const validateForm = () => {
   const validateTitle = (value) => value.length >= titleCount.min && value.length <= titleCount.max;
   pristine.addValidator(title, validateTitle, ErrorMessage.TITLE);
 
-  const validatePrice = (value) => value.length && parseInt(value, 10) <= PRICE_MAX;
+  const validatePrice = (value) => value <= price.min && parseInt(value, 10) <= PRICE_MAX;
   pristine.addValidator(price, validatePrice, ErrorMessage.PRICE);
 
   const validateCapacity = () => roomsCapacity[rooms.value].includes(capacity.value);
   const isNoGuests = () => rooms.value === '100' && capacity.value !== '0';
   const getRoomsErrorMessage = () => isNoGuests() ? ErrorMessage.NO_GUESTS : ErrorMessage.CAPACITY;
+  pristine.addValidator(rooms, validateCapacity, getRoomsErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getRoomsErrorMessage);
 
-  // нужно менять минимальное значение цены и плейсхолдер с ценой в разметке
-  // нужно валидировать значение в поле с ценой, но не менять его
+  timeIn.addEventListener('change', () => {
+    timeOut.querySelector(`option[value="${timeIn.value}"]`).selected = true;
+  });
 
-  // houseType.addEventListener('change', (e) => {
-  //   houseType.placeholder = HouseTypePrices[e.target.value];
-  //   houseType.min = HouseTypePrices[e.target.value];
-  // });
+  timeOut.addEventListener('change', () => {
+    timeIn.querySelector(`option[value="${timeOut.value}"]`).selected = true;
+  });
 
-  houseType.addEventListener('change', (e) => {
-    houseType.placeholder = HouseTypePrices[e.target.value];
-    // houseType.min = HouseTypePrices[e.target.value];
+  type.addEventListener('change', () => {
+    price.placeholder = HouseTypePrices[type.value];
+    price.min = HouseTypePrices[type.value];
   });
 
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
   });
+
 };
+
+
+
