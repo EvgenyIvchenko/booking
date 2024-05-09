@@ -4,24 +4,15 @@ const price = adForm.querySelector('#price');
 const rooms = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const type = adForm.querySelector('#type');
-const timeIn = adForm.querySelector('#timein');
-const timeOut = adForm.querySelector('#timeout');
-
-
-const PRICE_MIN = price.min;
-const PRICE_MAX = 100000;
+const timein = adForm.querySelector('#timein');
+const timeout = adForm.querySelector('#timeout');
 
 const titleCount = {
   min: 30,
   max: 100,
 };
 
-const ErrorMessage = {
-  TITLE: 'От 30 до 100 символов',
-  PRICE: `От ${PRICE_MIN} до 100000`,
-  CAPACITY: 'Недопустимое количество гостей',
-  NO_GUESTS: 'Помещение не для гостей',
-};
+const PRICE_MAX = 100000;
 
 const roomsCapacity = {
   '1': ['1'],
@@ -30,12 +21,21 @@ const roomsCapacity = {
   '100': ['0'],
 };
 
-const HouseTypePrices = {
+const houseType = {
   'bungalow' : '0',
   'flat' : '1000',
   'hotel' : '3000',
   'house' : '5000',
   'palace': '10000',
+};
+
+const ErrorMessage = {
+  REQUIRED: 'Обязательное поле',
+  TITLE_MIN: `Минимум ${titleCount.min} символов`,
+  TITLE_MAX: `Максимум ${titleCount.max} символов`,
+  PRICE: `От ${houseType['flat']} до ${PRICE_MAX}`,
+  CAPACITY: 'Недопустимое количество гостей',
+  NO_GUESTS: 'Помещение не для гостей',
 };
 
 export const validateForm = () => {
@@ -48,37 +48,52 @@ export const validateForm = () => {
     errorTextClass: 'ad-form__error',
   });
 
-  const validateTitle = (value) => value.length >= titleCount.min && value.length <= titleCount.max;
-  pristine.addValidator(title, validateTitle, ErrorMessage.TITLE);
+  const createTitleError = (value) => {
+    if (value.length === 0) {
+      return ErrorMessage.REQUIRED;
+    } else if (value.length < titleCount.min) {
+      return ErrorMessage.TITLE_MIN;
+    } else {
+      return ErrorMessage.TITLE_MAX;
+    }
+  };
 
-  const validatePrice = (value) => value <= price.min && parseInt(value, 10) <= PRICE_MAX;
-  pristine.addValidator(price, validatePrice, ErrorMessage.PRICE);
+  const validateTitle = (value) => value.length >= titleCount.min && value.length <= titleCount.max;
+  pristine.addValidator(title, validateTitle, createTitleError);
+
+  const createPriceError = (value) => {
+    if (value === '') {
+      return ErrorMessage.REQUIRED;
+    } else {
+      return ErrorMessage.PRICE;
+    }
+  };
+
+  const validatePrice = (value) => +value >= +price.placeholder && +value <= PRICE_MAX;
+  pristine.addValidator(price, validatePrice, createPriceError);
 
   const validateCapacity = () => roomsCapacity[rooms.value].includes(capacity.value);
   const isNoGuests = () => rooms.value === '100' && capacity.value !== '0';
   const getRoomsErrorMessage = () => isNoGuests() ? ErrorMessage.NO_GUESTS : ErrorMessage.CAPACITY;
-  pristine.addValidator(rooms, validateCapacity, getRoomsErrorMessage);
   pristine.addValidator(capacity, validateCapacity, getRoomsErrorMessage);
 
-  timeIn.addEventListener('change', () => {
-    timeOut.querySelector(`option[value="${timeIn.value}"]`).selected = true;
-  });
-
-  timeOut.addEventListener('change', () => {
-    timeIn.querySelector(`option[value="${timeOut.value}"]`).selected = true;
-  });
-
   type.addEventListener('change', () => {
-    price.placeholder = HouseTypePrices[type.value];
-    price.min = HouseTypePrices[type.value];
+    price.placeholder = houseType[type.value];
+    ErrorMessage.PRICE = `От ${houseType[type.value]} до ${PRICE_MAX}`;
+  });
+
+  timein.addEventListener('change', () => {timeout
+    .querySelector(`option[value="${timein.value}"]`)
+    .selected = true;
+  });
+
+  timeout.addEventListener('change', () => {timein
+    .querySelector(`option[value="${timeout.value}"]`)
+    .selected = true;
   });
 
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
   });
-
 };
-
-
-
