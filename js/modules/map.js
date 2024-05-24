@@ -1,5 +1,8 @@
 import {enableState} from './state.js';
+import {createAnnouncements} from './data.js';
 
+const markersForMap = createAnnouncements(5);
+// console.log(markersForMap);
 
 const address = document.querySelector('#address');
 const startCoordinates = {
@@ -30,6 +33,12 @@ export const loadMap = () => {
     iconAnchor: [26,52],
   });
 
+  const pinIcon = L.icon ({
+    iconUrl: '../../img/avatars/pin.svg',
+    iconSize: [40,40],
+    iconAnchor: [20,40],
+  });
+
   const mainPinMarker = L.marker(
     {
       lat: 35.68948,
@@ -45,5 +54,22 @@ export const loadMap = () => {
 
   mainPinMarker.on('moveend', (evt) => {
     address.value = `${Object.values(evt.target.getLatLng())[0].toFixed(5)}, ${Object.values(evt.target.getLatLng())[1].toFixed(5)}`;
+  });
+
+  markersForMap.forEach(({location}) => {
+    const {lat, lng} = location;
+
+    const marker = L.marker({
+      lat,
+      lng,
+    },
+    {
+      icon: pinIcon,
+    },
+    );
+
+    marker
+    .addTo(map);
+    // .bindPopup()
   });
 };

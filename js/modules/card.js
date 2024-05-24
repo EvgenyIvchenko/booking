@@ -93,6 +93,6 @@ export const createCards = (count) => {
     createFeatures(popup, features);
     createPhotos(popup, photos);
 
-    mapCanvas.appendChild(popup);
+    // mapCanvas.appendChild(popup);
   });
 };
