@@ -1,6 +1,3 @@
-import {createAnnouncements} from './data.js';
-
-const mapCanvas = document.querySelector('#map-canvas');
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const PopupType = {
@@ -61,38 +58,34 @@ const createPhotos = (popup, photos) => {
   });
 };
 
-export const createCards = (count) => {
-  const cards = createAnnouncements(count);
+export const createCard = ({ author, offer }) => {
+  const { avatar } = author;
+  const {
+    title,
+    address,
+    price,
+    type,
+    rooms,
+    guests,
+    checkin,
+    checkout,
+    features,
+    description,
+    photos,
+  } = offer;
 
-  cards.forEach(({ author, offer }) => {
-    const { avatar } = author;
-    const {
-      title,
-      address,
-      price,
-      type,
-      rooms,
-      guests,
-      checkin,
-      checkout,
-      features,
-      description,
-      photos,
-    } = offer;
+  const popup = popupTemplate.cloneNode(true);
 
-    const popup = popupTemplate.cloneNode(true);
+  createAvatar(popup, avatar);
+  createTextContent(popup, '.popup__title', title, title);
+  createTextContent(popup, '.popup__text--address', address, address);
+  createTextContent(popup, '.popup__text--price', `${price} ₽/ночь`, price);
+  createTextContent(popup, '.popup__type', PopupType[type], type);
+  createTextContent(popup, '.popup__text--capacity', `${rooms} комнаты для ${guests} гостей`, rooms, guests);
+  createTextContent(popup, '.popup__text--time', `Заезд после ${checkin}, выезд до ${checkout}`, checkin, checkout);
+  createTextContent(popup, '.popup__description', description, description);
+  createFeatures(popup, features);
+  createPhotos(popup, photos);
 
-    createAvatar(popup, avatar);
-    createTextContent(popup, '.popup__title', title, title);
-    createTextContent(popup, '.popup__text--address', address, address);
-    createTextContent(popup, '.popup__text--price', `${price} ₽/ночь`, price);
-    createTextContent(popup, '.popup__type', PopupType[type], type);
-    createTextContent(popup, '.popup__text--capacity', `${rooms} комнаты для ${guests} гостей`, rooms, guests);
-    createTextContent(popup, '.popup__text--time', `Заезд после ${checkin}, выезд до ${checkout}`, checkin, checkout);
-    createTextContent(popup, '.popup__description', description, description);
-    createFeatures(popup, features);
-    createPhotos(popup, photos);
-
-    // mapCanvas.appendChild(popup);
-  });
+  return popup;
 };

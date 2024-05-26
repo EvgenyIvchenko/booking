@@ -1,23 +1,20 @@
 import {enableState} from './state.js';
-import {createAnnouncements} from './data.js';
-
-const markersForMap = createAnnouncements(5);
-// console.log(markersForMap);
-
+import {createCard} from './card.js';
 const address = document.querySelector('#address');
+
 const startCoordinates = {
   lat: 35.68948,
   lng: 139.69170,
 };
 
-export const loadMap = () => {
+export const initMap = (announcements) => {
   const map = L.map('map-canvas')
     .on('load', () => {
       enableState();
-      address.value = `${Object.values(startCoordinates)[0].toFixed(5)}, ${Object.values(startCoordinates)[1].toFixed(5)}`;
+      address.value = `${startCoordinates.lat.toFixed(5)}, ${startCoordinates.lng.toFixed(5)}`;
     }).setView({
-      lat: 35.68948,
-      lng: 139.69170,
+      lat: startCoordinates.lat,
+      lng: startCoordinates.lng,
     }, 10);
 
   L.tileLayer(
@@ -41,8 +38,8 @@ export const loadMap = () => {
 
   const mainPinMarker = L.marker(
     {
-      lat: 35.68948,
-      lng: 139.69170,
+      lat: startCoordinates.lat,
+      lng: startCoordinates.lng,
     },
     {
       draggable: true,
@@ -53,23 +50,23 @@ export const loadMap = () => {
   mainPinMarker.addTo(map);
 
   mainPinMarker.on('moveend', (evt) => {
-    address.value = `${Object.values(evt.target.getLatLng())[0].toFixed(5)}, ${Object.values(evt.target.getLatLng())[1].toFixed(5)}`;
+    address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
   });
 
-  markersForMap.forEach(({location}) => {
-    const {lat, lng} = location;
+  announcements.forEach((announcement) => {
+    const {lat, lng} = announcement.location;
 
-    const marker = L.marker({
-      lat,
-      lng,
-    },
-    {
-      icon: pinIcon,
-    },
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon: pinIcon,
+      }
     );
 
-    marker
-    .addTo(map);
-    // .bindPopup()
+    marker.addTo(map)
+      .bindPopup(createCard(announcement));
   });
 };
