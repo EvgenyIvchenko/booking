@@ -14,7 +14,7 @@ export const slider = () => {
   });
 
   sliderElement.noUiSlider.on('update', () => {
-    valueElement.value = sliderElement.noUiSlider.get();
+    valueElement.value = Math.floor(sliderElement.noUiSlider.get());
   });
 };
 
