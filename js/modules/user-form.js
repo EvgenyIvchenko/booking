@@ -1,3 +1,6 @@
+import { showFail, showSuccess} from './util.js';
+import { formReset } from './util.js';
+
 const adForm = document.querySelector('.ad-form');
 const title = adForm.querySelector('#title');
 const price = adForm.querySelector('#price');
@@ -6,6 +9,7 @@ const capacity = adForm.querySelector('#capacity');
 const type = adForm.querySelector('#type');
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 const titleCount = {
   min: 30,
@@ -92,8 +96,34 @@ export const validateForm = () => {
     .selected = true;
   });
 
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    formReset();
+  });
+
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch('https://25.javascript.htmlacademy.pro/keksobooking1',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (response.ok) {
+            showSuccess();
+          } else {
+            showFail();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   });
 };

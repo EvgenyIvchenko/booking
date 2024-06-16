@@ -1,6 +1,5 @@
 const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
-
+const priceElement = document.querySelector('#price');
 
 export const slider = () => {
   noUiSlider.create(sliderElement, {
@@ -14,7 +13,6 @@ export const slider = () => {
   });
 
   sliderElement.noUiSlider.on('update', () => {
-    valueElement.value = Math.floor(sliderElement.noUiSlider.get());
+    priceElement.value = Math.floor(sliderElement.noUiSlider.get());
   });
 };
-

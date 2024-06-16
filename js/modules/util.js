@@ -1,3 +1,8 @@
+import { startCoordinates } from './map.js';
+
+const successAlertTemplate = document.querySelector('#success').content.querySelector('.success');
+const failAlertTemplate = document.querySelector('#error').content.querySelector('.error');
+
 export const getRandomInteger = (min, max) => {
   if (min < 0) {
     throw new Error('Минимальное число не может быть меньше 0');
@@ -59,4 +64,65 @@ export const createUniqueNumber = (min, max) => {
 
     return value;
   };
+};
+
+export const formReset = () => {
+  const formToReset = document.querySelector('.ad-form');
+  const sliderElement = document.querySelector('.ad-form__slider');
+
+  formToReset.reset();
+  formToReset.querySelector('#price').value = '50000';
+  formToReset.querySelector('#address').value = `${startCoordinates.lat.toFixed(5)}, ${startCoordinates.lng.toFixed(5)}`;
+  sliderElement.noUiSlider.set('50000');
+};
+
+export const showSuccess = () => {
+  const successAlertContainer = successAlertTemplate.cloneNode(true);
+  document.body.append(successAlertContainer);
+  formReset();
+
+  document.addEventListener('click', () => {
+    successAlertContainer.remove();
+  }, { once: true });
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      successAlertContainer.remove();
+    }
+  }, { once: true });
+};
+
+export const showFail = () => {
+  const failAlertContainer = failAlertTemplate.cloneNode(true);
+  const tryAgainButton = failAlertContainer.querySelector('.error__button');
+  document.body.append(failAlertContainer);
+
+  document.addEventListener('click', () => {
+    failAlertContainer.remove();
+  }, { once: true });
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      failAlertContainer.remove();
+    }
+  }, { once: true });
+
+  tryAgainButton.addEventListener('click', () => {
+    failAlertContainer.remove();
+  }, { once: true });
+};
+
+export const showAlert = () => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '50%';
+  alertContainer.style.top = '50%';
+  alertContainer.style.backgroundColor = 'white';
+  alertContainer.style.padding = '15px';
+  alertContainer.style.fontSize = '24px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.textContent = 'Упс :( что-то пошло не так';
+
+  document.body.append(alertContainer);
 };

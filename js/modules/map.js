@@ -1,13 +1,16 @@
-import {enableState} from './state.js';
-import {createCard} from './card.js';
+import { enableState } from './state.js';
+import { createCard } from './card.js';
+import { createLoader } from './load.js';
+import { showAlert } from './util.js';
+
 const address = document.querySelector('#address');
 
-const startCoordinates = {
+export const startCoordinates = {
   lat: 35.68948,
   lng: 139.69170,
 };
 
-export const initMap = (announcements) => {
+export const initMap = () => {
   const map = L.map('map-canvas')
     .on('load', () => {
       enableState();
@@ -53,20 +56,25 @@ export const initMap = (announcements) => {
     address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
   });
 
-  announcements.forEach((announcement) => {
-    const {lat, lng} = announcement.location;
+  const createAnnouncements = (announcements) => {
+    announcements.forEach((announcement) => {
+      const {lat, lng} = announcement.location;
 
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon: pinIcon,
-      }
-    );
+      const marker = L.marker(
+        {
+          lat,
+          lng,
+        },
+        {
+          icon: pinIcon,
+        }
+      );
 
-    marker.addTo(map)
-      .bindPopup(createCard(announcement));
-  });
+      marker.addTo(map)
+        .bindPopup(createCard(announcement));
+    });
+  };
+
+  const loadAnnouncements = createLoader(createAnnouncements, showAlert);
+  loadAnnouncements();
 };
