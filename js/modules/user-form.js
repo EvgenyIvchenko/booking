@@ -107,12 +107,12 @@ export const validateForm = () => {
 
     const blockSubmitButton = () => {
       submitButton.disabled = true;
-      submitButton.textContent = 'Сохраняю...';
+      submitButton.textContent = 'Публикую...';
     };
 
     const unblockSubmitButton = () => {
       submitButton.disabled = false;
-      submitButton.textContent = 'Сохранить';
+      submitButton.textContent = 'Опубликовать';
     };
 
     const isValid = pristine.validate();
