@@ -1,5 +1,5 @@
 export const createLoader = (onSuccess, onError) => () => fetch(
-  'https://25.javascript.htmlacademy.pro/keksobooking/data1',
+  'https://25.javascript.htmlacademy.pro/keksobooking/data',
   {
     method: 'GET',
     credentials: 'same-origin',
@@ -15,6 +15,6 @@ export const createLoader = (onSuccess, onError) => () => fetch(
   .then((data) => {
     onSuccess(data);
   })
-  .catch(() => {
-    onError();
+  .catch((err) => {
+    onError(err);
   });

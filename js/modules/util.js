@@ -112,7 +112,7 @@ export const showFail = () => {
   }, { once: true });
 };
 
-export const showAlert = () => {
+export const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';
@@ -122,7 +122,7 @@ export const showAlert = () => {
   alertContainer.style.padding = '15px';
   alertContainer.style.fontSize = '24px';
   alertContainer.style.textAlign = 'center';
-  alertContainer.textContent = 'Упс :( что-то пошло не так';
+  alertContainer.textContent = message;
 
   document.body.append(alertContainer);
 };

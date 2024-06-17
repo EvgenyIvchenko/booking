@@ -18,7 +18,7 @@ export const initMap = () => {
     }).setView({
       lat: startCoordinates.lat,
       lng: startCoordinates.lng,
-    }, 10);
+    }, 12);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',

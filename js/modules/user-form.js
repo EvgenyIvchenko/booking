@@ -10,6 +10,7 @@ const type = adForm.querySelector('#type');
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
 const resetButton = adForm.querySelector('.ad-form__reset');
+const submitButton = adForm.querySelector('.ad-form__submit');
 
 const titleCount = {
   min: 30,
@@ -104,11 +105,22 @@ export const validateForm = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
+    const blockSubmitButton = () => {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Сохраняю...';
+    };
+
+    const unblockSubmitButton = () => {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Сохранить';
+    };
+
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton();
       const formData = new FormData(evt.target);
 
-      fetch('https://25.javascript.htmlacademy.pro/keksobooking1',
+      fetch('https://25.javascript.htmlacademy.pro/keksobooking',
         {
           method: 'POST',
           body: formData,
@@ -117,8 +129,10 @@ export const validateForm = () => {
         .then((response) => {
           if (response.ok) {
             showSuccess();
+            unblockSubmitButton();
           } else {
             showFail();
+            unblockSubmitButton();
           }
         })
         .catch((err) => {
