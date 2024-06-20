@@ -15,4 +15,8 @@ export const slider = () => {
   sliderElement.noUiSlider.on('update', () => {
     priceElement.value = Math.floor(sliderElement.noUiSlider.get());
   });
+
+  priceElement.addEventListener('input', () => {
+    sliderElement.noUiSlider.set(priceElement.value);
+  });
 };

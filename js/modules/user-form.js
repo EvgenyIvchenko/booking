@@ -1,5 +1,5 @@
-import { showFail, showSuccess} from './util.js';
-import { formReset } from './util.js';
+import { showFail, showSuccess, formReset} from './util.js';
+import { createPosted } from './post.js';
 
 const adForm = document.querySelector('.ad-form');
 const title = adForm.querySelector('#title');
@@ -11,6 +11,11 @@ const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
 const resetButton = adForm.querySelector('.ad-form__reset');
 const submitButton = adForm.querySelector('.ad-form__submit');
+
+const adFormData = {
+  path: 'https://25.javascript.htmlacademy.pro/keksobooking',
+  method: 'POST',
+};
 
 const titleCount = {
   min: 30,
@@ -102,42 +107,36 @@ export const validateForm = () => {
     formReset();
   });
 
+  const disableSubmitButton = () => {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Публикую...';
+  };
+
+  const enableSubmitButton = () => {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Опубликовать';
+  };
+
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    const blockSubmitButton = () => {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Публикую...';
-    };
-
-    const unblockSubmitButton = () => {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Опубликовать';
-    };
-
     const isValid = pristine.validate();
-    if (isValid) {
-      blockSubmitButton();
-      const formData = new FormData(evt.target);
 
-      fetch('https://25.javascript.htmlacademy.pro/keksobooking',
-        {
-          method: 'POST',
-          body: formData,
+    if (isValid) {
+      const sendForm = createPosted(
+        adFormData.path,
+        adFormData.method,
+        new FormData(adForm),
+        () => {
+          showSuccess();
+          disableSubmitButton();
         },
-      )
-        .then((response) => {
-          if (response.ok) {
-            showSuccess();
-            unblockSubmitButton();
-          } else {
-            showFail();
-            unblockSubmitButton();
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+        () => {
+          showFail('Не удалось отправить форму. Попробуйте ещё раз');
+          enableSubmitButton();
+        },
+      );
+      sendForm();
     }
   });
 };

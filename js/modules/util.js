@@ -114,15 +114,14 @@ export const showFail = () => {
 
 export const showAlert = (message) => {
   const alertContainer = document.createElement('div');
+  alertContainer.style.position = 'relative';
   alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = '50%';
-  alertContainer.style.top = '50%';
-  alertContainer.style.backgroundColor = 'white';
-  alertContainer.style.padding = '15px';
-  alertContainer.style.fontSize = '24px';
+  alertContainer.style.padding = '12px';
+  alertContainer.style.fontSize = '16px';
   alertContainer.style.textAlign = 'center';
+  alertContainer.style.color = 'white';
+  alertContainer.style.backgroundColor = 'red';
   alertContainer.textContent = message;
 
-  document.body.append(alertContainer);
+  document.body.insertAdjacentElement('beforebegin', alertContainer);
 };

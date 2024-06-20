@@ -5,6 +5,11 @@ import { showAlert } from './util.js';
 
 const address = document.querySelector('#address');
 
+const announcementsData = {
+  path: 'https://25.javascript.htmlacademy.pro/keksobooking/data',
+  method: 'GET',
+};
+
 export const startCoordinates = {
   lat: 35.68948,
   lng: 139.69170,
@@ -75,6 +80,6 @@ export const initMap = () => {
     });
   };
 
-  const loadAnnouncements = createLoader(createAnnouncements, showAlert);
+  const loadAnnouncements = createLoader(announcementsData.path, announcementsData.method, createAnnouncements, showAlert);
   loadAnnouncements();
 };
