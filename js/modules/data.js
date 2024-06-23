@@ -1,134 +1,59 @@
-import {
-  getRandomInteger,
-  getRandomFractional,
-  getRandomArrayElement,
-  shuffle,
-  createUniqueNumber,
-} from './util.js';
-
-const ADS_TITLES = [
-  'Сдам однушку',
-  'Продам двушку',
-  'Обменяю трёхкомнатную',
-  'Сдам евро-двушку',
-  'Евро-трёшка в аренду',
-  'Продаётся дом',
-  'Аренда пентхауса',
-  'Сдаётся вилла',
-  'Продам дворец',
-  'Замок в аренду',
-];
-
-const ADS_TYPE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
-
-const ADS_CHECKIN = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const ADS_CHECKOUT = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const ADS_FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-
-const ADS_DESCRIPTION = [
-  'Прекрасное помещение',
-  'Просторные комнаты',
-  'Естесственное освещение',
-  'Большая кухня',
-  'Французский стеклопакет',
-  'Добрая консьержка',
-  'Злые соседи',
-  'Высокие потолки',
-  'Свежий ремонт',
-  'Вместительный гардероб',
-];
-
-const ADS_PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const Avatar = {
-  Min: 1,
-  Max: 10,
-};
-
-const Location = {
-  LATMIN: 35.65000,
-  LATMAX: 35.70000,
-  LNGMIN: 139.70000,
-  LNGMAX: 139.80000,
-  FLOAT: 5,
-};
-
-const Price = {
-  Min: 10000,
-  Max: 1000000,
-};
-
-const Rooms = {
-  Min: 1,
-  Max: 5,
-};
-
-const Guests = {
-  Min: 1,
-  Max: 5,
-};
-
-const uniqueAvatarNumber = createUniqueNumber(Avatar.Min, Avatar.Max);
-
-const createAvatar = () => {
-  const number = uniqueAvatarNumber();
-  return number < 10 ? `img/avatars/user0${number}.png` : `img/avatars/user${number}.png`;
-};
-
-const createLat = () => getRandomFractional(Location.LATMIN, Location.LATMAX, Location.FLOAT);
-const createLng = () => getRandomFractional(Location.LNGMIN, Location.LNGMAX, Location.FLOAT);
-
-const createFeatures = () => shuffle(Array.from(ADS_FEATURES)).slice(0, getRandomInteger(1, ADS_FEATURES.length));
-const createPhotos = () => shuffle(Array.from(ADS_PHOTOS)).slice(0, getRandomInteger(1, ADS_PHOTOS.length));
-
-const createAnnouncement = () => ({
-  author: {
-    avatar: createAvatar(),
+export const data = {
+  form: {
+    titleCount: {
+      min: 30,
+      max: 100,
+    },
+    PRICE_MAX: 100000,
+    roomsCapacity: {
+      '1': ['1'],
+      '2': ['1', '2'],
+      '3': ['1', '2', '3'],
+      '100': ['0'],
+    },
+    houseType: {
+      'bungalow' : '0',
+      'flat' : '1000',
+      'hotel' : '3000',
+      'house' : '5000',
+      'palace': '10000',
+    },
   },
-  offer: {
-    title: getRandomArrayElement(ADS_TITLES),
-    address: `${createLat()}, ${createLng()}`,
-    price: getRandomInteger(Price.Min, Price.Max),
-    type: getRandomArrayElement(ADS_TYPE),
-    rooms: getRandomInteger(Rooms.Min, Rooms.Max),
-    guests: getRandomInteger(Guests.Min, Guests.Max),
-    checkin: getRandomArrayElement(ADS_CHECKIN),
-    checkout: getRandomArrayElement(ADS_CHECKOUT),
-    features: createFeatures(),
-    description: getRandomArrayElement(ADS_DESCRIPTION),
-    photos: createPhotos(ADS_PHOTOS),
+  card: {
+    photo: {
+      width: '40',
+      height: '40',
+      alt: 'Фотография жилья',
+    },
+    PopupType: {
+      FLAT: 'Квартира',
+      BUNGALOW: 'Бунгало',
+      HOUSE: 'Дом',
+      PALACE: 'Дворец',
+      HOTEL: 'Отель',
+    },
   },
-  location: {
-    lat: createLat(),
-    lng: createLng(),
+  RequestPath: {
+    ANNOUNSEMENTS: 'https://25.javascript.htmlacademy.pro/keksobooking/data',
+    AD_FORM: 'https://25.javascript.htmlacademy.pro/keksobooking',
   },
-});
-
-export const createAnnouncements = (count) => Array.from({length: count}, createAnnouncement);
+  map: {
+    zoom: 12,
+    mainPin: {
+      lat: 35.68948,
+      lng: 139.69170,
+      iconUrl: '../../img/avatars/main-pin.svg',
+      iconSize: [52, 52],
+      iconAnchor: [26, 52],
+    },
+    pin: {
+      iconUrl: '../../img/avatars/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    },
+    tileLayer: {
+      template: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }
+  },
+};

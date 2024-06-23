@@ -1,9 +1,9 @@
-import {disableState} from './modules/state.js';
-import {validateForm} from './modules/user-form.js';
-import {slider} from './modules/slider.js';
-import {initMap} from './modules/map.js';
+import { state } from './modules/state.js';
+import { initMap } from './modules/init-map.js';
+import { initForm } from './modules/init-form.js';
+import { initSlider } from './modules/init-slider.js';
 
-disableState();
-validateForm();
-slider();
+state.disableState();
+initSlider();
+initForm();
 initMap();

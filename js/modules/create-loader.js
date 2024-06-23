@@ -1,8 +1,8 @@
-export const createPosted = (path, method, body, onSuccess, onError) => () => fetch(
+export const createLoader = (path, onSuccess, onError) => () => fetch(
   path,
   {
-    method: method,
-    body: body,
+    method: 'GET',
+    credentials: 'same-origin',
   },
 )
   .then((response) => {

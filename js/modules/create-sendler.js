@@ -1,8 +1,8 @@
-export const createLoader = (path, method, onSuccess, onError) => () => fetch(
+export const createSendler = (path, body, onSuccess, onError) => () => fetch(
   path,
   {
-    method: method,
-    credentials: 'same-origin',
+    method: 'POST',
+    body: body,
   },
 )
   .then((response) => {
