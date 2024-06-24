@@ -1,3 +1,7 @@
+const filtersForm = document.querySelector('.map__filters');
+const filterElements = filtersForm.querySelectorAll('.map__filter');
+const filterCheckboxes = filtersForm.querySelectorAll('.map__checkbox');
+
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
 export const createLoaderError = (message) => {
@@ -12,4 +16,14 @@ export const createLoaderError = (message) => {
   error.textContent = message;
 
   document.body.insertAdjacentElement('beforebegin', error);
+};
+
+export const resetFilters = () => {
+  for (let i = 0; i < filterElements.length; i++) {
+    filterElements[i].selectedIndex = filterElements[i].querySelector('[selected]').index;
+  }
+
+  for (let i = 0; i < filterCheckboxes.length; i++) {
+    filterCheckboxes[i].checked = false;
+  }
 };

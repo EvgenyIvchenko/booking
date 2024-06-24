@@ -2,7 +2,7 @@ import { data } from './data.js';
 import { state } from './state.js';
 import { createCard } from './create-card.js';
 import { createLoader } from './create-loader.js';
-import { createLoaderError } from './util.js';
+import { createLoaderError, resetFilters } from './util.js';
 
 const addressElement = document.querySelector('#address');
 const resetElement = document.querySelector('.ad-form__reset');
@@ -44,6 +44,8 @@ export const initMap = () => {
   resetElement.addEventListener('click', (e) => {
     e.preventDefault();
     addressElement.value = `${data.map.mainPin.lat}, ${data.map.mainPin.lng}`;
+
+    resetFilters();
 
     map.setView({ lat: data.map.mainPin.lat, lng: data.map.mainPin.lng }, data.map.zoom);
     mainPinMarker.setLatLng({ lat: data.map.mainPin.lat, lng: data.map.mainPin.lng });
