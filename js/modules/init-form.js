@@ -1,7 +1,6 @@
 import { data } from './data.js';
 import { createSendler } from './create-sendler.js';
 import { popup } from './popup.js';
-import { resetFilters } from './util.js';
 
 const adFormElement = document.querySelector('.ad-form');
 const titleElement = adFormElement.querySelector('#title');
@@ -14,6 +13,7 @@ const timeInElement = adFormElement.querySelector('#timein');
 const timeOutElement = adFormElement.querySelector('#timeout');
 const resetElement = adFormElement.querySelector('.ad-form__reset');
 const submitElement = adFormElement.querySelector('.ad-form__submit');
+const mapFormElement = document.querySelector('.map__filters');
 
 const ErrorMessage = {
   REQUIRED: 'Обязательное поле',
@@ -82,7 +82,7 @@ const onTimeOutChange = (e) => {
 const onResetClick = (e) => {
   e.preventDefault();
   adFormElement.reset();
-  resetFilters();
+  mapFormElement.reset();
   priceElement.placeholder = data.form.houseType[typeElement.value];
   ErrorMessage.PRICE = `От ${data.form.houseType[typeElement.value]} до ${data.form.PRICE_MAX}`;
   sliderElement.noUiSlider.set(1000);
