@@ -16,6 +16,8 @@ export const initMap = () => {
     lng: data.map.mainPin.lng,
   }, data.map.zoom);
 
+  const markersGroup = L.layerGroup().addTo(map);
+
   L.tileLayer(data.map.tileLayer.template, { attribution: data.map.tileLayer.attribution }).addTo(map);
 
   const mainPinIcon = L.icon ({
@@ -41,22 +43,27 @@ export const initMap = () => {
     addressElement.value = `${e.target.getLatLng().lat.toFixed(5)}, ${e.target.getLatLng().lng.toFixed(5)}`;
   });
 
+  const createAnnouncements = (announcements) => {
+    const announcementsCount = announcements.slice(0, data.filter.OFFER_COUNT);
+
+    announcementsCount.forEach((announcement) => {
+      const {lat, lng} = announcement.location;
+      const marker = L.marker({ lat, lng }, { icon: pinIcon });
+
+      marker.addTo(markersGroup).bindPopup(createCard(announcement));
+    });
+  };
+
+  const clearMarkers = () => markersGroup.clearLayers();
+
   resetElement.addEventListener('click', (e) => {
     e.preventDefault();
     addressElement.value = `${data.map.mainPin.lat}, ${data.map.mainPin.lng}`;
     map.setView({ lat: data.map.mainPin.lat, lng: data.map.mainPin.lng }, data.map.zoom);
     mainPinMarker.setLatLng({ lat: data.map.mainPin.lat, lng: data.map.mainPin.lng });
     map.closePopup();
+    clearMarkers();
   });
-
-  const createAnnouncements = (announcements) => {
-    announcements.forEach((announcement) => {
-      const {lat, lng} = announcement.location;
-      const marker = L.marker({ lat, lng }, { icon: pinIcon });
-
-      marker.addTo(map).bindPopup(createCard(announcement));
-    });
-  };
 
   const loadAnnouncements = createLoader(
     data.RequestPath.ANNOUNSEMENTS,

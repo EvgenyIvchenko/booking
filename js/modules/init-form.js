@@ -2,6 +2,7 @@ import { data } from './data.js';
 import { createSendler } from './create-sendler.js';
 import { popup } from './popup.js';
 
+
 const adFormElement = document.querySelector('.ad-form');
 const titleElement = adFormElement.querySelector('#title');
 const typeElement = adFormElement.querySelector('#type');

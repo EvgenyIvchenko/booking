@@ -33,6 +33,9 @@ export const data = {
       HOTEL: 'Отель',
     },
   },
+  filter: {
+    OFFER_COUNT: '10',
+  },
   RequestPath: {
     ANNOUNSEMENTS: 'https://25.javascript.htmlacademy.pro/keksobooking/data',
     AD_FORM: 'https://25.javascript.htmlacademy.pro/keksobooking',
