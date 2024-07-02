@@ -35,6 +35,10 @@ export const data = {
   },
   filter: {
     OFFER_COUNT: '10',
+    PRICE: {
+      LOW: 10000,
+      HIGH: 50000,
+    },
   },
   RequestPath: {
     ANNOUNSEMENTS: 'https://25.javascript.htmlacademy.pro/keksobooking/data',

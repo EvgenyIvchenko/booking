@@ -1,3 +1,5 @@
+const TIMEOUT_DELAY = 500;
+
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
 export const createLoaderError = (message) => {
@@ -12,4 +14,12 @@ export const createLoaderError = (message) => {
   error.textContent = message;
 
   document.body.insertAdjacentElement('beforebegin', error);
+};
+
+export const debounce = (callback) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), TIMEOUT_DELAY);
+  };
 };
