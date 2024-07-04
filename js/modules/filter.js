@@ -58,7 +58,7 @@ export const getFilteredOffers = (offers) => {
       checkHousingType(offer) &&
       checkHousingRooms(offer) &&
       checkHousingGuests(offer) &&
-      checkHousingFeatures(offer) &&
+      checkHousingFeatures(offer, selectedFeatures) &&
       checkHousingPrice(offer)
     ) {
       filteredOffers.push(offer);
@@ -70,4 +70,8 @@ export const getFilteredOffers = (offers) => {
   }
 
   return filteredOffers;
+};
+
+export const setOnFilterChange  = (cb) => {
+  filterElement.addEventListener('change', () => cb());
 };

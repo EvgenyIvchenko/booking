@@ -3,9 +3,11 @@ import { state } from './state.js';
 import { createCard } from './create-card.js';
 import { createLoader } from './create-loader.js';
 import { createLoaderError } from './util.js';
+import { getFilteredOffers } from './filter.js';
 
 const addressElement = document.querySelector('#address');
 const resetElement = document.querySelector('.ad-form__reset');
+const filterElement = document.querySelector('.map__filters');
 
 export const initMap = () => {
   const map = L.map('map-canvas').on('load', () => {
@@ -43,8 +45,13 @@ export const initMap = () => {
     addressElement.value = `${e.target.getLatLng().lat.toFixed(5)}, ${e.target.getLatLng().lng.toFixed(5)}`;
   });
 
+  let announcementData = null;
+
   const createAnnouncements = (announcements) => {
-    const announcementsCount = announcements.slice(0, data.filter.OFFER_COUNT);
+    if (!announcementData) {
+      announcementData = announcements;
+    }
+    const announcementsCount = announcementData.slice(0, data.filter.OFFER_COUNT);
 
     announcementsCount.forEach((announcement) => {
       const {lat, lng} = announcement.location;
@@ -63,6 +70,12 @@ export const initMap = () => {
     mainPinMarker.setLatLng({ lat: data.map.mainPin.lat, lng: data.map.mainPin.lng });
     map.closePopup();
     clearMarkers();
+  });
+
+  filterElement.addEventListener('change', () => {
+    clearMarkers();
+    getFilteredOffers(announcementData);
+    createAnnouncements(getFilteredOffers);
   });
 
   const loadAnnouncements = createLoader(
