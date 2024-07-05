@@ -48,6 +48,7 @@ export const initMap = () => {
   let announcementData = null;
 
   const createAnnouncements = (announcements) => {
+
     if (!announcementData) {
       announcementData = announcements;
     }
@@ -59,6 +60,7 @@ export const initMap = () => {
 
       marker.addTo(markersGroup).bindPopup(createCard(announcement));
     });
+    // console.log(announcementsCount);
   };
 
   const clearMarkers = () => markersGroup.clearLayers();
