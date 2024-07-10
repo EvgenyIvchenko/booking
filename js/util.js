@@ -1,8 +1,8 @@
-const TIMEOUT_DELAY = 500;
+function isEscapeKey(e) {
+  return e.key === 'Escape';
+}
 
-export const isEscapeKey = (evt) => evt.key === 'Escape';
-
-export const createLoaderError = (message) => {
+function openLoaderError(message) {
   const error = document.createElement('div');
   error.style.position = 'relative';
   error.style.zIndex = 100;
@@ -14,12 +14,14 @@ export const createLoaderError = (message) => {
   error.textContent = message;
 
   document.body.insertAdjacentElement('beforebegin', error);
-};
+}
 
-export const debounce = (callback) => {
+const debounce = (cb, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), TIMEOUT_DELAY);
+    timeoutId = setTimeout(() => cb.apply(this, rest), timeoutDelay);
   };
 };
+
+export {isEscapeKey, openLoaderError, debounce};

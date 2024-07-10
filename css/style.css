@@ -666,6 +666,10 @@ fieldset {
           box-shadow: 0 0 2px 2px #ff6547;
 }
 
+.ad-form__error {
+  color: #ff6547;
+}
+
 
 /* Футер
    ========================================================================== */
@@ -1053,7 +1057,3 @@ fieldset {
 .hidden {
   display: none;
 }
-
-.ad-form__error {
-  color: red;
-};
