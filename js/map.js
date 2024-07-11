@@ -4,7 +4,10 @@ import { debounce } from './util.js';
 const addressElement = document.querySelector('#address');
 const resetElement = document.querySelector('.ad-form__reset');
 const ZOOM = 12;
-const RERENDER_COUNT = 2000;
+const RERENDER_COUNT = 500;
+const avatarPreview = document.querySelector('.ad-form-header__preview-pic');
+const photoPreview = document.querySelector('.ad-form__photo');
+
 
 const mainPin = {
   lat: 35.68948,
@@ -87,6 +90,8 @@ function createAnnouncements(announcements, announcementsCount, renderCard) {
     mainPinMarker.setLatLng({lat: mainPin.lat, lng: mainPin.lng});
     map.closePopup();
     renderMarkers(announcements, announcementsCount, renderCard);
+    avatarPreview.src = 'img/muffin-grey.svg';
+    photoPreview.style.backgroundImage = '';
   }
 
   resetElement.addEventListener('click', onResetClick);

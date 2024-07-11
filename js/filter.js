@@ -5,7 +5,6 @@ const housingRoomsElement = mapFiltersElement.querySelector('#housing-rooms');
 const housingGuestsElement = mapFiltersElement.querySelector('#housing-guests');
 const mapCheckboxElements = mapFiltersElement.querySelectorAll('.map__checkbox');
 const resetElement = document.querySelector('.ad-form__reset');
-const RERENDER_DELAY = 2000;
 
 const price = {
   low: {

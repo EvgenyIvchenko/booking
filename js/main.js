@@ -6,6 +6,7 @@ import {openLoaderError} from './util.js';
 import {initForm} from './form.js';
 import {validateForm} from './validation.js';
 import {openModalSuccess, openModalError} from './modal.js';
+import './preview.js';
 
 const ANNOUNSEMENTS_PATH = 'https://25.javascript.htmlacademy.pro/keksobooking/data';
 const ANNOUNSEMENTS_COUNT = 10;
