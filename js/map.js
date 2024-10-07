@@ -17,6 +17,8 @@ const mainPin = {
   iconAnchor: [26, 52],
 };
 
+// failure of deployment?
+
 const pin = {
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
