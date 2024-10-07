@@ -12,13 +12,13 @@ const photoPreview = document.querySelector('.ad-form__photo');
 const mainPin = {
   lat: 35.68948,
   lng: 139.69170,
-  iconUrl: '../../img/main-pin.svg',
+  iconUrl: '../img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 };
 
 const pin = {
-  iconUrl: '../../img/pin.svg',
+  iconUrl: '../img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 };
@@ -38,7 +38,7 @@ const map = L.map('map-canvas').on('load', () => {
   lng: mainPin.lng,
 }, ZOOM);
 
-L.tileLayer(tileLayer.template, {attribution: tileLayer.attribution}).addTo(map);
+L.tileLayer(tileLayer.template, { attribution: tileLayer.attribution }).addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: mainPin.iconUrl,
@@ -53,8 +53,8 @@ const pinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {lat: mainPin.lat, lng: mainPin.lng},
-  {draggable: true, icon: mainPinIcon},
+  { lat: mainPin.lat, lng: mainPin.lng },
+  { draggable: true, icon: mainPinIcon },
 );
 
 mainPinMarker.addTo(map);
@@ -73,8 +73,8 @@ function renderMarkers(announcements, announcementsCount, renderCard) {
   markersGroup.clearLayers();
 
   announcements.slice(0, announcementsCount).forEach((announcement) => {
-    const {lat, lng} = announcement.location;
-    const marker = L.marker({lat, lng}, {icon: pinIcon});
+    const { lat, lng } = announcement.location;
+    const marker = L.marker({ lat, lng }, { icon: pinIcon });
 
     marker.addTo(markersGroup).bindPopup(renderCard(announcement));
   });
@@ -86,8 +86,8 @@ function createAnnouncements(announcements, announcementsCount, renderCard) {
   function onResetClick(e) {
     e.preventDefault();
     addressElement.value = `${mainPin.lat}, ${mainPin.lng}`;
-    map.setView({lat: mainPin.lat, lng: mainPin.lng}, ZOOM);
-    mainPinMarker.setLatLng({lat: mainPin.lat, lng: mainPin.lng});
+    map.setView({ lat: mainPin.lat, lng: mainPin.lng }, ZOOM);
+    mainPinMarker.setLatLng({ lat: mainPin.lat, lng: mainPin.lng });
     map.closePopup();
     renderMarkers(announcements, announcementsCount, renderCard);
     avatarPreview.src = 'img/muffin-grey.svg';
@@ -108,4 +108,4 @@ function initMap(getData, path, initFilter, announcementsCount, renderCard, open
   );
 }
 
-export {initMap};
+export { initMap };
