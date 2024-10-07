@@ -12,9 +12,9 @@ const photoPreview = document.querySelector('.ad-form__photo');
 const mainPin = {
   lat: 35.68948,
   lng: 139.69170,
-  // iconUrl: '../img/main-pin.svg',
-  // iconSize: [52, 52],
-  // iconAnchor: [26, 52],
+  iconUrl: '../img/pin/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
 };
 
 // const pin = {
@@ -40,11 +40,11 @@ const map = L.map('map-canvas').on('load', () => {
 
 L.tileLayer(tileLayer.template, { attribution: tileLayer.attribution }).addTo(map);
 
-// const mainPinIcon = L.icon({
-//   iconUrl: mainPin.iconUrl,
-//   iconSize: mainPin.iconSize,
-//   iconAnchor: mainPin.iconAnchor,
-// });
+const mainPinIcon = L.icon({
+  iconUrl: mainPin.iconUrl,
+  iconSize: mainPin.iconSize,
+  iconAnchor: mainPin.iconAnchor,
+});
 
 // const pinIcon = L.icon({
 //   iconUrl: pin.iconUrl,
@@ -54,7 +54,7 @@ L.tileLayer(tileLayer.template, { attribution: tileLayer.attribution }).addTo(ma
 
 const mainPinMarker = L.marker(
   { lat: mainPin.lat, lng: mainPin.lng },
-  { draggable: true },
+  { draggable: true, icon: mainPinIcon },
 );
 
 mainPinMarker.addTo(map);
