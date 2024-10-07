@@ -12,16 +12,16 @@ const photoPreview = document.querySelector('.ad-form__photo');
 const mainPin = {
   lat: 35.68948,
   lng: 139.69170,
-  iconUrl: '../img/pin/main-pin.svg',
+  iconUrl: '../img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 };
 
-// const pin = {
-//   iconUrl: '../img/pin.svg',
-//   iconSize: [40, 40],
-//   iconAnchor: [20, 40],
-// };
+const pin = {
+  iconUrl: 'git../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+};
 
 const tileLayer = {
   template: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -46,11 +46,11 @@ const mainPinIcon = L.icon({
   iconAnchor: mainPin.iconAnchor,
 });
 
-// const pinIcon = L.icon({
-//   iconUrl: pin.iconUrl,
-//   iconSize: pin.iconSize,
-//   iconAnchor: pin.iconAnchor,
-// });
+const pinIcon = L.icon({
+  iconUrl: pin.iconUrl,
+  iconSize: pin.iconSize,
+  iconAnchor: pin.iconAnchor,
+});
 
 const mainPinMarker = L.marker(
   { lat: mainPin.lat, lng: mainPin.lng },
@@ -74,7 +74,7 @@ function renderMarkers(announcements, announcementsCount, renderCard) {
 
   announcements.slice(0, announcementsCount).forEach((announcement) => {
     const { lat, lng } = announcement.location;
-    const marker = L.marker({ lat, lng });
+    const marker = L.marker({ lat, lng }, { icon: pinIcon });
 
     marker.addTo(markersGroup).bindPopup(renderCard(announcement));
   });
