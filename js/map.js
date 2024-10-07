@@ -12,13 +12,13 @@ const photoPreview = document.querySelector('.ad-form__photo');
 const mainPin = {
   lat: 35.68948,
   lng: 139.69170,
-  iconUrl: '../img/pin/main-pin.svg',
+  iconUrl: './img/pin/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 };
 
 const pin = {
-  iconUrl: '../img/pin.svg',
+  iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 };
